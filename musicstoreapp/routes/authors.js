@@ -14,6 +14,7 @@ module.exports = function (app,twig) {
             "group": "Red hot chilli pepers",
             "role":"guitarrist"
         }];
+
         let response=
             {
                 seller:'tienda de canciones',
@@ -23,25 +24,44 @@ module.exports = function (app,twig) {
     });
 
     app.get('/authors/add', function (req, res) {
-        res.render("authors/add.twig");
+        let roles=[{
+            "name":"Bass player"},
+            {
+                "name":"guitarrist"
+            },
+            {
+                "name":"singer"},
+            {
+                "name":"pianist"
+            },
+            {
+                "name":"drummer"
+            }];
+        let response={
+            roles:roles
+        }
+        res.render("authors/add.twig",response);
     });
 
     app.post('/authors/add', function (req, res) {
-        let response = "Autor añadido:";
+       
+        let response= "Autor añadido:";
         if (req.query.name == null && typeof (req.query.name) == "undefined")
-            response += '< name > no envíado en la petición. <br>';
+            field += '< name > no envíado en la petición. <br>';
         else
             response += req.query.name + '<br>';
-        response += "Grupo:"
+        response+= "Grupo:"
         if (req.query.group == null && typeof (req.query.group) == "undefined")
             response += '< group > no envíado en la petición. <br>';
         else
             response += req.query.group + '<br>';
-        response += "Rol:"
+       response+= "Rol:"
         if (req.query.role == null && typeof (req.query.role) == "undefined")
             response += '< role > no envíado en la petición. <br>';
         else
             response += req.query.role + '<br>';
+
+
         res.send(response);
     });
 
