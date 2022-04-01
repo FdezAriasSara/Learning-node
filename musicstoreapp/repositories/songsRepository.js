@@ -4,7 +4,7 @@ module.exports = {
     init: function (app, mongoClient) {
         this. mongoClient= mongoClient;
         this.app = app;
-    },
+    } ,
     getSongs: async function (filter,options) {
     try {
         const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
