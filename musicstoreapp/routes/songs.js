@@ -1,4 +1,4 @@
-module.exports = function (app,MongoClient) {
+module.exports = function (app,songsRepository) {
     app.get("/songs", function (req, res) {
 
       let songs=[{
@@ -31,19 +31,15 @@ module.exports = function (app,MongoClient) {
            price:req.body.price
 
        }
-        MongoClient.connect(app.get('connectionStrings'), function (err, dbClient) {
-            if (err) {
-                res.send("Error de conexión: " + err);
-            } else {
-                const database = dbClient.db("musicStore");
-                const collectionName = 'songs';
-                const songsCollection = database.collection(collectionName);
-                songsCollection.insertOne(song)
-                    .then(result => res.send("canción añadida id: " + result.insertedId))
-                    .then(() => dbClient.close())
-                    .catch(err => res.send("Error al insertar " + err));
-                }
-            });
+        songsRepository.insertSong(song, function (songId) {
+            if(songId==null){
+                res.send("Error al insertar la canción");
+
+            }else{
+                res.send("Agregada la canción ID:"+songId);
+            }
+            
+        });
         });
     app.get('/songs/:id', function(req, res) {
         let response = 'id: ' + req.params.id;

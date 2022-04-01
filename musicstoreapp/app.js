@@ -23,9 +23,11 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+let songsRepository=require("./repositories/songsRepository.js");
+songsRepository.init(app,MongoClient);
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-require("./routes/songs.js")(app,MongoClient);
+require("./routes/songs.js")(app,songsRepository);
 require("./routes/authors.js")(app,MongoClient);
 
 
