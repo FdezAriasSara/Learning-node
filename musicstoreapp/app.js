@@ -7,7 +7,13 @@ var logger = require('morgan');
 
 
 var app = express();
-//const { MongoClient } = require("mongodb");
+let fileUpload = require('express-fileupload');
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 },
+  createParentPath: true
+}));
+app.set('uploadPath', __dirname)
+
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const url = "mongodb+srv://admin:efXSp6qTATbCGEKW@tiendamusica.d4mjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
