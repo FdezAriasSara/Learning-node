@@ -7,14 +7,26 @@ var logger = require('morgan');
 
 
 var app = express();
+//const { MongoClient } = require("mongodb");
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const url = "mongodb+srv://admin:efXSp6qTATbCGEKW@tiendamusica.d4mjg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+app.set('connectionStrings', url);
+
 let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-require("./routes/songs.js")(app);
-require("./routes/authors.js")(app);
+require("./routes/songs.js")(app,MongoClient);
+require("./routes/authors.js")(app,MongoClient);
 
 
 // view engine setup
