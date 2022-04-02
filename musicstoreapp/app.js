@@ -37,6 +37,15 @@ let bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const userSessionRouter = require('./routes/userSessionRouter');
+const userAudiosRouter = require('./routes/userAudiosRouter');
+
+app.use("/songs/add",userSessionRouter);
+app.use("/publications",userSessionRouter);
+app.use("/audios/",userAudiosRouter);
+//app.use("/audios/",userSessionRouter);
+app.use("/shop/",userSessionRouter)
+
 let songsRepository=require("./repositories/songsRepository.js");
 songsRepository.init(app,MongoClient);
 
