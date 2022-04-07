@@ -1,6 +1,6 @@
-{% extends "layout.twig"%}
+{% extends "layout.twig" %}
     {% block title %} Detalles de canción   {% endblock %}
-{% block main_container%}
+{% block main_container %}
     <div class="row">
         <div class="media col-xs-10">
             <div class="media-left media-middle">
@@ -21,4 +21,35 @@
             </div>
         </div>
     </div>
-    {% endblock %}
+    <div>
+        {% if comments is empty %}
+            <h3> Se el primero en comentar!</h3>
+        {% else %}
+            {% for comment in  comments %}
+                <tr>
+                    <td>{{ comment.author }}</td>
+                </tr>
+                <tr>
+                    <td>{{ comment.text }}</td>
+
+                </tr>
+            {% endfor %}
+        {% endif %}
+        <h2>Añadir comentario</h2>
+        <form class="form-horizontal" method="post" action="/comment/{{ song._id }}" >
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="comment">Comentario:</label>
+                <div class="col-sm-10">
+                    <input type="text" id="comment" class="form-control" name="comment"
+                           placeholder="Me encanta esta canción" required/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">Publicar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
