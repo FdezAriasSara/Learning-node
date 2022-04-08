@@ -5,6 +5,23 @@ module.exports = {
         this. mongoClient= mongoClient;
         this.app = app;
     } ,
+    getSongsPg: async function (filter, options, page) {//PAGINACIÓN
+        try {
+            const limit = 4;
+            const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
+            const database = client.db("musicStore");
+            const collectionName = 'songs';
+            const songsCollection = database.collection(collectionName);
+            const songsCollectionCount = await songsCollection.count();//Contar canciones dentro del resultado
+            const cursor = songsCollection.find(filter, options).skip((page - 1) * limit).limit(limit)
+            //cursor-> cada 4 canciones, página nueva.
+            const songs = await cursor.toArray();
+            const result = {songs: songs, total: songsCollectionCount};//lista de canciones  de la página actual, número total de canciones
+            return result;
+        } catch (error) {
+            throw (error);
+        }
+    },
     getPurchases: async function (filter, options) {
         try {
             const client = await this.mongoClient.connect(this.app.get('connectionStrings'));
