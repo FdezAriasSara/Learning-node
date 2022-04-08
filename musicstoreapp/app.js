@@ -46,6 +46,11 @@ app.use("/audios/",userAudiosRouter);
 //app.use("/audios/",userSessionRouter);
 app.use("/shop/",userSessionRouter)
 
+const userAuthorRouter = require('./routes/userAuthorRouter');
+app.use("/songs/edit",userAuthorRouter);
+app.use("/songs/delete",userAuthorRouter);
+
+
 let songsRepository=require("./repositories/songsRepository.js");
 songsRepository.init(app,MongoClient);
 
