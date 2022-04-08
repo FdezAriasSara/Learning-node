@@ -17,7 +17,8 @@
                 <p>
                     {{ song.kind }}
                 </p>
-                <button type="button" class="btn btn-primary pull-right">{{ song.price }}</button>
+                <a class="btn btn-primary pull-right"
+                   href="/songs/buy/{{ song._id }}">{{ song.price }} €</a>
             </div>
         </div>
     </div>

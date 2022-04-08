@@ -10,8 +10,19 @@ userAudiosRouter.use(function (req, res, next) {
     songsRepository.findSong(filter, {}).then(song => {
         if (req.session.user && song.author == req.session.user) {
             next();
+            return;//IMPORTANTE PARA EVITAR ERRORES> Después de un next() no se puede enviar otra respuesta!
         } else {
-            res.redirect("/shop");
+            let filter = {user: req.session.user, songId: ObjectId(songId)};
+            let options = {projection: {_id: 0, songId: 1}};
+            songsRepository.getPurchases(filter, options).then(purchasedIds => {
+                if (purchasedIds != null && purchasedIds.length > 0) {
+                    next();
+                } else {
+                    res.redirect("/shop");
+                }
+            }).catch(error => {
+                res.redirect("/shop");
+            })
         }
     }).catch(error => {
         res.redirect("/shop");
