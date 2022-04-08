@@ -108,7 +108,8 @@ module.exports = function (app, songsRepository, commentsRepository) {
                 if (result == null) {
                     res.send("Error al actualizar la portada o el audio de la canción");
                 } else {
-                    res.send("Se ha modificado el registro correctamente");
+                    //res.send("Se ha modificado el registro correctamente");
+                    res.redirect("/publications")
                 }
             });
         });
@@ -175,14 +176,16 @@ module.exports = function (app, songsRepository, commentsRepository) {
                                     if (err) {
                                         res.send("Error al subir el audio");
                                     } else {
-                                        res.send("Agregada la canción ID: " + songId);
+                                       // res.send("Agregada la canción ID: " + songId);
+                                        res.redirect("/publications");
                                     }
                                 });
                             }
                         }
                     })
                 } else {
-                    res.send("Agregada la canción ID: " + songId)
+                    //res.send("Agregada la canción ID: " + songId)
+                    res.redirect("/publications");
                 }
             }
 
